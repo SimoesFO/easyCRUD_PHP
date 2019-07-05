@@ -1,0 +1,19 @@
+{
+	"project" : "easyCRUD_PHP",
+	"author" : "Felipe Simões",
+	"connections" : {
+		"default" : "localhost",
+		"localhost" : {
+			"host" : "localhost",
+			"dbname" : "projeto",
+			"user" : "root",
+			"pws" : ""
+		},
+		"Franqueadora":{
+			"host" : "localhost",
+			"dbname" : "projeto",
+			"user" : "root",
+			"pws" : "1234"
+		}
+	}
+}

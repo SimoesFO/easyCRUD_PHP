@@ -1,35 +1,41 @@
 <?php
+$pathRoot = $_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1));
+
+function scanFolder($folder, $class_name) {
+
+	$array = scandir($folder);
+	unset($array[0]); // remove '.'
+	unset($array[1]); // remove '..'
+
+	foreach ($array as $key => $dir) {
+
+		if(substr($dir, 0, 1) != '.') {
+
+			$path = $folder.'/'.$dir;
+			if(is_dir($path)) {
+
+				$pathClass = "$path/".$class_name;				
+				if(is_readable($pathClass)) {
+					include_once $pathClass;
+					return;
+				}
+				scanFolder($path, $class_name);
+			}
+		}
+	}
+	return;
+}
+
+
 spl_autoload_register(function ($class_name) {
 
 	$class_name = $class_name . '.php';
-	$arrayDirectory = array(
-		'', 
-		'/controller', 
-		'/dao', 
-		'/inc');
-	
-	foreach ($arrayDirectory as $dir) {
-
-		$path = getcwd()."$dir/".$class_name;		
-		if(is_readable($path)) {
-			include_once $path;
-		}		
-	}	
-    
+	$pathRoot = $_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1));
+	scanFolder($pathRoot, $class_name);
 });
 
 class _autoload {
-
-	/*
-	public function anti_injection($arg) {
-		
-		if(is_string($arg)) {
-			$arg = trim($arg);
-			$arg = addslashes($arg);
-		}
-		return $arg;
-	}
-	*/
+	
 	public function __set($name, $value) {
 		$this->$name = $value;
 	}
