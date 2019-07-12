@@ -1,57 +1,41 @@
 <?php
 include_once ("../inc/_autoload.php");
 
-$obj = new UsuarioControl();
+try {
+	
+	$objUsuario = new UsuarioControl();
+	$objPosts = new PostsUsuariosControl();
+	$objCliente = new ClientesControl();
+	$objComentarios = new ComentariosPostControl();
+	
+	Connection::beginTransaction();
 
-//$teste = "Franqueadora";
-//$jsonConfig = file_get_contents('../config/config.json');
-//$arrayConfig = json_decode($jsonConfig);
-//var_dump($arrayConfig);
-//echo $arrayConfig->connections->$teste->user;
-
-
-//echo $rootProject;
-
-//echo $_SERVER['PHP_SELF'];
-//echo getcwd();
-//echo dirname(__FILE__);
-//echo substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1));
-//echo $_SERVER['DOCUMENT_ROOT'];
-
-
-/*
-function scanFolder($folder) {
-
-	$array = scandir($folder);
-	unset($array[0]); // remove '.'
-	unset($array[1]); // remove '..'
-
-	foreach ($array as $key => $dir) {
-
-		if(substr($dir, 0, 1) != '.') {
-
-			$path = $folder.'/'.$dir;
-			if(is_dir($path)) {
-
-				echo $path."<br>";
-				scanFolder($path);
-			}
-		}
-	}
-	return;
+	$objUsuario->setNome("Felipe 7");
+	$objUsuario->setIdade(18);
+	$objUsuario->setExemploTeste('Teste 7');
+	$idUsuario = $objUsuario->insert();
+	
+	$objPosts->setIdUsuario($idUsuario);
+	$objPosts->setComentario("Primeiro Post");
+	$objPosts->insert();
+	
+	$objCliente->setNome("João da Silva");
+	$objCliente->setIdade(19);
+	$objCliente->insert();
+	
+	$objComentarios->setIdPost(1);
+	$objComentarios->setComentario('comentario 1');
+	$objComentarios->insert();
+	
+	Connection::commit();
 }
-*/
-//$result = scanFolder("..");
+catch (Exception $e) {
 
-//print_r($result);
+	Connection::rollBack();
+	echo "Excessão: ";
+	echo $e->getMessage();
+}
 
-//$jsonConfig = file_get_contents('../config/config.json');
-//$arrayConfig = json_decode($jsonConfig);
-//print_r($arrayConfig->autoload);
-
-//echo "<br>";
-//echo substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1));
-//echo $arrayConfig['project'];
 
 /*
 $array = array(
@@ -75,10 +59,5 @@ $array = array(
 */
 
 //echo json_encode($array);
-
-
-//$obj->setNome("FElipe\ Oliverira ' Simões"));
-//echo stripslashes($obj->getNome());
-
 
 ?>

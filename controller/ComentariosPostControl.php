@@ -1,9 +1,10 @@
 <?php
 
-class UsuarioControl extends Usuario {
+class ComentariosPostControl extends ComentariosPost {
 	
 	function __construct() {
 		parent::__construct();		
 	}
 }
+
 ?>

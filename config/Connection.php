@@ -1,54 +1,68 @@
 <?php
 class Connection {
 	
-	private $con;
-	private $instanceName;
+	private static $con = array();
+	private static $arrayConfig;
 
-	function __construct($con = null) {
-
-		$this->con = $con;
-		$this->getInstance();
+	private function __construct() {
 	}
 
-	public function setInstanceName($instanceName) {
+	private static function getConfig() {
 
-		$this->con = null;
-		$this->instanceName = $instanceName;
+		$pathRoot = $_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1))."/config/";
+
+		$jsonConfig = file_get_contents($pathRoot.'config.json');
+		self::$arrayConfig = json_decode($jsonConfig);
 	}
 
-	public function getInstanceName() {
 
-		return $this->instanceName;
+	public static function beginTransaction() {
+		foreach (self::$con as $instanceName => $instance) {
+			$instance->beginTransaction();
+		}
 	}
 
-	public function getInstance() {
+
+	public static function commit() {
+		foreach (self::$con as $instanceName => $instance) {
+			$instance->commit();
+		}
+	}
+
+
+	public static function rollBack() {
+
+		self::$con = null;
+	}
+
+
+	public static function getInstance($instanceName = null) {
 		
 		try {
-			if(!isset($this->con)) {
-				
-				$pathRoot = $_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1))."/config/";
 
-				$jsonConfig = file_get_contents($pathRoot.'config.json');
-				$arrayConfig = json_decode($jsonConfig);
+			self::getConfig();
 
-				if(empty(trim($this->instanceName))) {
-					$instance = $arrayConfig->connections->default;
-				}
-				else {
-					$instance = $this->instanceName;	
-				}
-				
-				$host = $arrayConfig->connections->$instance->host;
-				$dbname = $arrayConfig->connections->$instance->dbname;
-				$user = $arrayConfig->connections->$instance->user;
-				$pws = $arrayConfig->connections->$instance->pws;
-
-				$this->con = new PDO("mysql:host=". $host .";dbname=". $dbname .";charset=utf8", $user, $pws);
+			if(empty(trim($instanceName))) {
+				$instance = self::$arrayConfig->connections->default;
+				$instanceName = $instance;
+			}
+			else {
+				$instance = $instanceName;	
 			}
 
-			return $this->con;
+			if(!isset(self::$con[$instanceName])) {
+
+				$host = self::$arrayConfig->connections->$instance->host;
+				$dbname = self::$arrayConfig->connections->$instance->dbname;
+				$user = self::$arrayConfig->connections->$instance->user;
+				$pws = self::$arrayConfig->connections->$instance->pws;
+
+				self::$con[$instanceName] = new PDO("mysql:host=". $host .";dbname=". $dbname .";charset=utf8", $user, $pws);
+			}
+
+			return self::$con[$instanceName];
 		}
-		catch (PDOException $e) {
+		catch (Exception $e) {
 			return $e->getMessage();
 		}
 	}

@@ -1,9 +1,10 @@
 <?php
 
-class UsuarioControl extends Usuario {
+class ClientesControl extends Clientes {
 	
 	function __construct() {
 		parent::__construct();		
 	}
 }
+
 ?>

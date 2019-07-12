@@ -1,16 +1,15 @@
 <?php
 
-class Usuario extends Dao  {
+class PostsUsuarios extends Dao  {
 
 	//public $con;
 
 	function __construct() {
 
-		$this->setTableName('usuario');
+		$this->setTableName('posts_usuarios');
 		//$this->con = new Connection();
 		//$this->con->setInstanceName('Franqueadora');
 		parent::__construct();
-		
 	}
 
 

@@ -11,9 +11,9 @@
 		},
 		"Franqueadora":{
 			"host" : "localhost",
-			"dbname" : "projeto",
+			"dbname" : "projeto02",
 			"user" : "root",
-			"pws" : "1234"
+			"pws" : ""
 		}
 	}
 }

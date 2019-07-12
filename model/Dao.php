@@ -3,9 +3,13 @@ class Dao extends _autoload {
 
 	private $arrayFieldsTable;
 	private $arrayPrimaryKeyTable;
+	private $con;
 
 	function __construct() {
 
+		if(!$this->con) {
+			$this->con = Connection::getInstance();
+		}
 		$this->arrayFieldsTable = array();
 		$this->arrayFieldsTableNoPK = array();
 		$this->arrayPrimaryKeyTable = array();
@@ -13,20 +17,48 @@ class Dao extends _autoload {
 	}
 
 
-	private function getFieldsTable() {
+	public function setInstance($instanceName) {
 
-		$sql = "SHOW COLUMNS FROM ".$this->getTableName();
-		$stmt = $this->con->getInstance()->prepare($sql);
-		$isError = $stmt->execute();
-		$result = $stmt->fetchAll();
-
-		return $result;
+		$this->con = Connection::getInstance($instanceName);
 	}
 
 
-	public function getFieldsTablePrepare() {
+	public function getInstance() {
 
-		$arrayFields = $this->getFieldsTable();
+		return $this->con;
+	}
+
+
+	private function getFieldsTable($debug = false) {
+
+		try {
+			$sql = "SHOW COLUMNS FROM ".$this->getTableName();
+			$stmt = $this->con->prepare($sql);
+			// EXECUTE
+			$isNotError = $stmt->execute();
+
+			// DEBUG
+			$this->setDebug($stmt, $debug);
+
+			// CHECK IF HAS ERROR
+			if($isNotError) {
+
+				$result = $stmt->fetchAll();
+				return $result;
+			}
+			else {
+				throw new Exception ("Error! Get Fields Table!");
+			}
+		}
+		catch (Exception $e) {
+			throw new Exception ($e->getMessage());
+		}
+	}
+
+
+	public function getFieldsTablePrepare($debug = false) {
+
+		$arrayFields = $this->getFieldsTable($debug);
 
 		foreach ($arrayFields as $field) {
 			
@@ -125,7 +157,7 @@ class Dao extends _autoload {
 
 			// SQL
 			$sql = "SELECT * FROM ".$this->getTableName();
-			$stmt = $this->con->getInstance()->prepare($sql);
+			$stmt = $this->con->prepare($sql);
 
 			// EXECUTE
 			$isNotError = $stmt->execute();
@@ -174,7 +206,7 @@ class Dao extends _autoload {
 
 			// SQL
 			$sql = "SELECT * FROM ". $this->getTableName() ." WHERE ". $where;
-			$stmt = $this->con->getInstance()->prepare($sql);
+			$stmt = $this->con->prepare($sql);
 
 			// VALUES
 			$arrayValues = $this->getArrayValues(false, true, false);
@@ -245,7 +277,7 @@ class Dao extends _autoload {
 
 			// SQL
 			$sql = "INSERT INTO ". $this->getTableName() ." (". $fields .") VALUES (". $params .")";
-			$stmt = $this->con->getInstance()->prepare($sql);
+			$stmt = $this->con->prepare($sql);
 
 			// VALUES
 			$arrayValues = $this->getArrayValues(false, false, false);
@@ -258,7 +290,7 @@ class Dao extends _autoload {
 
 			// CHECK IF HAS ERROR
 			if($isNotError) {
-				return $this->con->getInstance()->lastInsertId();
+				return $this->con->lastInsertId();
 			}
 			else {
 				throw new Exception ("Error! Insert!");
@@ -291,7 +323,7 @@ class Dao extends _autoload {
 
 			// SQL
 			$sql = "UPDATE ". $this->getTableName() ." SET ". $fields ." WHERE ". $where;
-			$stmt = $this->con->getInstance()->prepare($sql);
+			$stmt = $this->con->prepare($sql);
 
 			// VALUES
 			$arrayValues = $this->getArrayValues(true, false, false);
@@ -324,7 +356,7 @@ class Dao extends _autoload {
 			
 			// SQL
 			$sql = "DELETE FROM ". $this->getTableName() ." WHERE ".$where;
-			$stmt = $this->con->getInstance()->prepare($sql);
+			$stmt = $this->con->prepare($sql);
 
 			// PK - PRIMARY KEY
 			$arrayValues = $this->getArrayValues(false, true, false);
