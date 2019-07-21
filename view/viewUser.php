@@ -3,26 +3,25 @@ include_once ("../inc/_autoload.php");
 
 try {
 	
-	$objUsuario = new UsuarioControl();
-	$objPosts = new PostsUsuariosControl();
-	$objCliente = new ClientesControl();
-	$objComentarios = new ComentariosPostControl();
-	
 	Connection::beginTransaction();
-
+	
+	$objUsuario = new UsuarioControl();
 	$objUsuario->setNome("Felipe 7");
 	$objUsuario->setIdade(18);
 	$objUsuario->setExemploTeste('Teste 7');
 	$idUsuario = $objUsuario->insert();
 	
+	$objPosts = new PostsUsuariosControl();
 	$objPosts->setIdUsuario($idUsuario);
 	$objPosts->setComentario("Primeiro Post");
 	$objPosts->insert();
 	
+	$objCliente = new ClientesControl();
 	$objCliente->setNome("João da Silva");
 	$objCliente->setIdade(19);
 	$objCliente->insert();
 	
+	$objComentarios = new ComentariosPostControl();
 	$objComentarios->setIdPost(1);
 	$objComentarios->setComentario('comentario 1');
 	$objComentarios->insert();

@@ -47,7 +47,7 @@ class Dao extends _autoload {
 				return $result;
 			}
 			else {
-				throw new Exception ("Error! Get Fields Table!");
+				throw new Exception ("Error! Get Fields Table! ".get_parent_class(get_class($this)));
 			}
 		}
 		catch (Exception $e) {
@@ -190,7 +190,7 @@ class Dao extends _autoload {
 				return $arrayObj;
 			}
 			else {
-				throw new Exception ("Error! Select All!");
+				throw new Exception ("Error! ".get_parent_class(get_class($this))." - Could not return all data!");
 			}
 		}
 		catch (Exception $e) {
@@ -238,7 +238,7 @@ class Dao extends _autoload {
 				return true;
 			}
 			else {
-				throw new Exception ("Error! Select ID!");
+				throw new Exception ("Error! ".get_parent_class(get_class($this))." - Could not return data!");
 			}
 		}
 		catch (Exception $e) {
@@ -293,7 +293,7 @@ class Dao extends _autoload {
 				return $this->con->lastInsertId();
 			}
 			else {
-				throw new Exception ("Error! Insert!");
+				throw new Exception ("Error! ".get_parent_class(get_class($this))." - Could not insert data!");
 			}
 		}
 		catch (Exception $e) {
@@ -339,7 +339,7 @@ class Dao extends _autoload {
 				return $stmt->rowCount();
 			}
 			else {
-				throw new Exception ("Error! Update!");
+				throw new Exception ("Error! ".get_parent_class(get_class($this))." - Could not update data!");
 			}
 		}
 		catch (Exception $e) {
@@ -372,7 +372,7 @@ class Dao extends _autoload {
 				return $stmt->rowCount();
 			}
 			else {
-				throw new Exception ("Error! Delete!");
+				throw new Exception ("Error! ".get_parent_class(get_class($this))." - Could not delete data!");
 			}	
 		}
 		catch (Exception $e) {

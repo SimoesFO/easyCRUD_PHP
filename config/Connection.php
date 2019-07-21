@@ -3,6 +3,7 @@ class Connection {
 	
 	private static $con = array();
 	private static $arrayConfig;
+	private static $isTransaction = false;
 
 	private function __construct() {
 	}
@@ -17,6 +18,8 @@ class Connection {
 
 
 	public static function beginTransaction() {
+		
+		self::$isTransaction = true;
 		foreach (self::$con as $instanceName => $instance) {
 			$instance->beginTransaction();
 		}
@@ -32,7 +35,9 @@ class Connection {
 
 	public static function rollBack() {
 
-		self::$con = null;
+		foreach (self::$con as $instanceName => $instance) {
+			$instance->rollBack();
+		}
 	}
 
 
@@ -58,7 +63,13 @@ class Connection {
 				$pws = self::$arrayConfig->connections->$instance->pws;
 
 				self::$con[$instanceName] = new PDO("mysql:host=". $host .";dbname=". $dbname .";charset=utf8", $user, $pws);
+
+				if(self::$isTransaction) {
+					self::$con[$instanceName]->beginTransaction();
+				}
 			}
+
+
 
 			return self::$con[$instanceName];
 		}
