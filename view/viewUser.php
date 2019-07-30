@@ -2,36 +2,47 @@
 include_once ("../inc/_autoload.php");
 
 try {
-	
+	/*
 	Connection::beginTransaction();
 	
 	$objUsuario = new UsuarioControl();
-	$objUsuario->setNome("Felipe 7");
-	$objUsuario->setIdade(18);
+	$objUsuario->setNome("Felipe Simẽos");
+	$objUsuario->setIdade(28);
 	$objUsuario->setExemploTeste('Teste 7');
 	$idUsuario = $objUsuario->insert();
 	
 	$objPosts = new PostsUsuariosControl();
 	$objPosts->setIdUsuario($idUsuario);
 	$objPosts->setComentario("Primeiro Post");
-	$objPosts->insert();
-	
-	$objCliente = new ClientesControl();
-	$objCliente->setNome("João da Silva");
-	$objCliente->setIdade(19);
-	$objCliente->insert();
+	$idPost = $objPosts->insert();
 	
 	$objComentarios = new ComentariosPostControl();
-	$objComentarios->setIdPost(1);
-	$objComentarios->setComentario('comentario 1');
+	$objComentarios->setIdPost($idPost);
+	$objComentarios->setComentario('Primerio Comentário');
 	$objComentarios->insert();
 	
 	Connection::commit();
+	*/
+
+
+	$objUsuario = new UsuarioControl();
+	$objUsuario->setId(67);
+	$objUsuario->selectId();
+	echo $objUsuario->getNome()."<br />";
+
+	$objUsuario->loadPostsUsuarios();
+	foreach ($objUsuario->getArrayPostsUsuarios() as $key => $post) {
+		echo "Id: ". $post->getId() ."<br />";
+		echo "Id Usuário: ". $post->getIdUsuario() ."<br />";
+		echo "Comentário: ". $post->getComentario() ."<br />";
+	}
+	//var_dump($objUsuario->getArrayPostsUsuarios());
+
+
 }
 catch (Exception $e) {
 
-	Connection::rollBack();
-	echo "Excessão: ";
+	//Connection::rollBack();
 	echo $e->getMessage();
 }
 

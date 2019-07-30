@@ -3,7 +3,7 @@ class Dao extends _autoload {
 
 	private $arrayFieldsTable;
 	private $arrayPrimaryKeyTable;
-	private $con;
+	protected $con;
 
 	function __construct() {
 
@@ -105,7 +105,7 @@ class Dao extends _autoload {
 	}
 
 
-	private function setDebug($stmt, $debug = false) {
+	public function setDebug($stmt, $debug = false) {
 
 		if($debug) {
 			echo "<div style='color:red'><b>".$stmt->errorInfo()[2]."</b></div>";
