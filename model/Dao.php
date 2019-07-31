@@ -380,6 +380,61 @@ class Dao extends _autoload {
 		}
 	}
 
+
+	public function executeQuery($query = null, $arrayParams = null, $debug = false) {
+
+		try {
+
+			// PREPARE SQL.
+			$stmt = $this->con->prepare($query);
+
+			// EXECUTE
+			$isNotError = $stmt->execute($arrayParams);
+
+			// DEBUG
+			$this->setDebug($stmt, $debug);
+
+			// CHECK IF HAS ERROR
+			if($isNotError) {
+
+				// IF NOT ERROR, BUT NUMBER OF REGISTER EQUAL ZERO, RETURN FALSE.
+				if(!$stmt->rowCount()){
+					return false;
+				}
+
+				return $stmt;
+			}
+			else {
+
+				throw new Exception ("Error! ".get_parent_class(get_class($this))." - Could not execute query!");
+			}
+
+		}
+		catch (Exception $e) {
+			throw new Exception ($e->getMessage());
+		}
+	}
+
+
+	public function setRow($row = null, $debug = false) {
+
+		try {
+
+			if($debug) {
+				var_dump($row);
+			}
+			
+			foreach ($row as $key => $field) {
+
+				$function = 'set'.$this->prepareField($key);
+				$this->$function($field);
+			}
+		}
+		catch (Exception $e) {
+			throw new Exception ($e->getMessage());
+		}
+	}
+
 	
 }
 ?>

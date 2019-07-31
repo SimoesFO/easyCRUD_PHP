@@ -27,16 +27,20 @@ try {
 
 	$objUsuario = new UsuarioControl();
 	$objUsuario->setId(67);
-	$objUsuario->selectId();
-	echo $objUsuario->getNome()."<br />";
+	$result = $objUsuario->selectId();
+	if($result) {
+		echo $objUsuario->getNome()."<br />";
 
-	$objUsuario->loadPostsUsuarios();
-	foreach ($objUsuario->getArrayPostsUsuarios() as $key => $post) {
-		echo "Id: ". $post->getId() ."<br />";
-		echo "Id Usuário: ". $post->getIdUsuario() ."<br />";
-		echo "Comentário: ". $post->getComentario() ."<br />";
+		$result = $objUsuario->loadPostsUsuarios();
+		if($result) {
+			foreach ($objUsuario->getArrayPostsUsuarios() as $key => $post) {
+				echo "Id: ". $post->getId() ."<br />";
+				echo "Id Usuário: ". $post->getIdUsuario() ."<br />";
+				echo "Comentário: ". $post->getComentario() ."<br />";
+			}
+			//var_dump($objUsuario->getArrayPostsUsuarios());
+		}
 	}
-	//var_dump($objUsuario->getArrayPostsUsuarios());
 
 
 }
