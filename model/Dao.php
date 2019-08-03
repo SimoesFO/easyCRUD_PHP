@@ -151,6 +151,26 @@ class Dao extends _autoload {
 	}
 
 
+	public function setRow($row = null, $debug = false) {
+
+		try {
+
+			if($debug) {
+				var_dump($row);
+			}
+			
+			foreach ($row as $key => $field) {
+
+				$function = 'set'.$this->prepareField($key);
+				$this->$function($field);
+			}
+		}
+		catch (Exception $e) {
+			throw new Exception ($e->getMessage());
+		}
+	}
+
+
 	public function selectAll($debug = false) {
 		
 		try {
@@ -179,11 +199,7 @@ class Dao extends _autoload {
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 					$obj = new $classChild();
-					foreach ($row as $key => $field) {
-
-						$function = 'set'.$this->prepareField($key);
-						$obj->$function($field);
-					}	
+					$obj->setRow($row);
 					array_push($arrayObj, $obj);		
 				}
 
@@ -228,11 +244,7 @@ class Dao extends _autoload {
 				// IF NUMBER OF REGISTER BIGGER THAN ZERO, DEFINE VALUES FOR OBJECT.
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-					foreach ($row as $key => $field) {
-
-						$function = 'set'.$this->prepareField($key);
-						$this->$function($field);
-					}
+					$this->setRow($row);
 				}
 
 				return true;
@@ -416,24 +428,7 @@ class Dao extends _autoload {
 	}
 
 
-	public function setRow($row = null, $debug = false) {
-
-		try {
-
-			if($debug) {
-				var_dump($row);
-			}
-			
-			foreach ($row as $key => $field) {
-
-				$function = 'set'.$this->prepareField($key);
-				$this->$function($field);
-			}
-		}
-		catch (Exception $e) {
-			throw new Exception ($e->getMessage());
-		}
-	}
+	
 
 	
 }

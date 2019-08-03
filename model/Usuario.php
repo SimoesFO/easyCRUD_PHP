@@ -32,7 +32,7 @@ class Usuario extends Dao  {
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 					$obj = new PostsUsuarios();
-					$obj->setRow($row);					
+					$obj->setRow($row);
 					array_push($this->arrayPostsUsuarios, $obj);		
 				}
 
