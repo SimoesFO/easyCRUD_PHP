@@ -7,8 +7,5 @@ class PostsUsuarios extends Dao  {
 		$this->setTableName('posts_usuarios');
 		parent::__construct();
 	}
-
-
-	
 }
 ?>

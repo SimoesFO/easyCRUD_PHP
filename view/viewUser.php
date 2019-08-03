@@ -42,36 +42,11 @@ try {
 		}
 	}
 
-
 }
 catch (Exception $e) {
 
 	//Connection::rollBack();
 	echo $e->getMessage();
 }
-
-
-/*
-$array = array(
-	"project" => "easyCRUD_PHP",
-	"author" => "Felipe Simões",
-	"connections" => array(
-		"localhost" => array(
-			"host" => "localhost",
-			"dbname" => "projeto",
-			"user" => "root",
-			"pws" => "sdf"
-		),
-		"Franqueadora" => array(
-			"host" => "localhost2",
-			"dbname" => "projeto2",
-			"user" => "root2",
-			"pws" => "2"
-		)
-	)
-);
-*/
-
-//echo json_encode($array);
 
 ?>
