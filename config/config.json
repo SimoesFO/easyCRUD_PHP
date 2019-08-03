@@ -15,5 +15,9 @@
 			"user" : "root",
 			"pws" : ""
 		}
+	},
+	"plugins" : {
+		"jquery" : "v3.4.1",
+		"bootstrap" : "v4.3.1"
 	}
 }
