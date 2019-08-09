@@ -1,0 +1,33 @@
+.header-site {
+	background-image: url(../img/img01.jpg);
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	color: #FFF;
+	padding-top: 300px;
+	padding-bottom: 300px;
+}
+
+.content-site {
+	padding-top: 200px;
+	padding-bottom: 200px;
+}
+
+.img-site {
+	background-image: url(../img/img02.jpg);
+	background-position: center top;
+	background-position: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	color: #FFF;
+	padding-top: 200px;
+	padding-bottom: 200px;
+}
+
+.footer-site {
+	background-color: #000;
+	color: #FFF;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}

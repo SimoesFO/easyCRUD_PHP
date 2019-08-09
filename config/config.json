@@ -2,22 +2,23 @@
 	"project" : "easyCRUD_PHP",
 	"author" : "Felipe Simões",
 	"connections" : {
-		"default" : "localhost",
+		"default" : "newsweek",
 		"localhost" : {
 			"host" : "localhost",
 			"dbname" : "projeto",
 			"user" : "root",
 			"pws" : ""
 		},
-		"Franqueadora":{
+		"newsweek":{
 			"host" : "localhost",
-			"dbname" : "projeto02",
+			"dbname" : "newsweek",
 			"user" : "root",
 			"pws" : ""
 		}
 	},
 	"plugins" : {
 		"jquery" : "v3.4.1",
-		"bootstrap" : "v4.3.1"
+		"bootstrap" : "v4.3.1",
+		"jQuery Mask Plugin" : "1.7.7"
 	}
 }
