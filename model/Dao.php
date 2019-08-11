@@ -127,6 +127,12 @@ class Dao extends _autoload {
 				if(isset($this->$fieldNameAux)) {
 					$function = 'get'.$this->prepareField($fieldName);
 					$value = $this->$function();
+
+					// If value is empty, define him to NULL.
+					if(empty(trim($value))) {
+						$value = NULL;
+					}
+
 					array_push($arrayValues, $value);
 				}
 			}

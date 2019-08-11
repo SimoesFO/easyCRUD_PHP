@@ -14,6 +14,10 @@
             cursor: pointer;
         }
 
+        .hide-field {
+            display: none;
+        }
+
     </style>
     
 </head>
@@ -133,7 +137,7 @@
 
             <div class="modal-body">
                 
-                <form name="add-author" id="add-author">
+                <form name="form-author" id="form-author">
                     <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
                         <div class="col-sm-10">
@@ -163,7 +167,8 @@
                         </div>
 
                         <div class="col-sm-3">
-                            <select class="form-control" id="select-operadora">
+                            <select class="form-control" id="select-operadora" placeholder="Operadora...">
+                                <option value=""></option>
                                 <option value="residencial">Residêncial</option>
                                 <option value="claro">Claro</option>
                                 <option value="oi">Oi</option>
@@ -181,7 +186,7 @@
 
                     </div>
 
-                    <div class="form-group row d-none" id="div-tb-phones">
+                    <div class="form-group row hide-field" id="div-tb-phones">
                         <div class="col-sm-9 offset-sm-2">
                             <table class="table table-sm" id="tb-phones">
                                 <thead>
@@ -212,6 +217,20 @@
 
 </div>
 
+<div class="modal" tabindex="-1" role="dialog" id="modal-alert">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal" id="btn-close-alert">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <!-- IMPORT JS -->
@@ -238,32 +257,60 @@
                 var tr = "<tr><td>"+ phone +"</td><td>"+ operadora +"</td></tr>";
                 $("#tb-phones tbody").append(tr);
 
-                if($("#div-tb-phones").hasClass( 'd-none' )) {
-                    $("#div-tb-phones").removeClass('d-none');
-                }
+                $(".hide-field").show();
             }
         });
 
         $("#btn-salvar").on('click', function() {
-            var dataForm = $("#add-author").serialize();
+            var dataForm = $("#form-author").serialize();
 
             $.ajax({
                 url: "author_ajax.php?"+dataForm,
                 method: "GET",
                 data: { 
-                     method: 'registerUser'
+                    method: 'registerUser',
+                    debug: 0 // 0 - false | 1 - true
                 },
                 dataType: "html",
-                'success' : function() {
+                'success' : function(data) {
+                    if(data == 'success') {
+
+                        $('#form-author input, select').each (function(){
+                            
+                            $(this).val("");
+                            $(this).prop('selectedIndex',0);
+                            $("#tb-phones").html("");
+                            $(".hide-field").hide();
+                        });
+
+                        $("#modal-alert").find('.modal-body').html('Operação Realizada com Sucesso!');
+                        $("#modal-alert").find('button').removeClass('btn-danger');
+                        $("#modal-alert").find('button').addClass('btn-success');
+                        $("#modal-author").modal('hide');
+                        $("#modal-alert").modal('show');
+                    }
+                    else {
+                        $("#modal-alert").find('.modal-body').html('Error ao executar a operação! Por favor, verifique se todos os campos foram preenchidos de maneira correta, e tente novamente.');
+                        $("#modal-alert").find('button').removeClass('btn-success');
+                        $("#modal-alert").find('button').addClass('btn-danger');
+                        $("#modal-author").modal('hide');
+                        $("#modal-alert").modal('show');
+                    }
                 },
                 'done' : function() {
                 }
             });
         });
-        //$("#inputCPF").mask('000.000.000-00', {reverse: true});
-        $("#btn-add").on('click', function() {
-            //alert(1);
+
+        $("#btn-close-alert").on('click', function () {
+
+            var result = $(this).hasClass('btn-danger');
+
+            if(result) {
+                $("#modal-author").modal('show');
+            }
         });
+
     });
 </script>
 
