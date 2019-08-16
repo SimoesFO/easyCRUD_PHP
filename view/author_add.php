@@ -10,7 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../resources/css/style.css">
     <style type="text/css">
-
+        .hide-field {
+            display: none;
+        }
     </style>
     
 </head>
@@ -59,7 +61,7 @@
                 <div class="row justify-content-md-center" style="padding-top: 10px;">
 
                     <div class="col-12">
-                        <form name="form-author" id="form-author" method="POST" action="AuthorCadastroControl.php">
+                        <form name="form-author" id="form-author" method="POST" action="AuthorRegisterControl.php">
                             <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
                                 <div class="col-sm-10">
@@ -89,7 +91,7 @@
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <select class="form-control" id="select-operadora" placeholder="Operadora...">
+                                    <select class="form-control" id="select-operator" placeholder="operator...">
                                         <option value=""></option>
                                         <option value="residencial">Residêncial</option>
                                         <option value="claro">Claro</option>
@@ -98,7 +100,7 @@
                                         <option value="vivo">Vivo</option>
                                     </select>
 
-                                    <small id="operadoraHelp" class="form-text text-muted">Operadora</small>
+                                    <small id="operatorHelp" class="form-text text-muted">operator</small>
                                 </div>
 
 
@@ -113,7 +115,7 @@
                                     <table class="table table-sm" id="tb-phones">
                                         <thead>
                                             <th>Phones</th>
-                                            <th>Operadora</th>
+                                            <th>Operator</th>
                                         </thead>
                                         <tbody>
                                         </tbody>
@@ -169,10 +171,31 @@
 <script type="text/javascript" src="../resources/plugins/jQuery-Mask-Plugin/dist/jquery.mask.min.js"></script>
 
 <script type="text/javascript">
-    $(function() {
+$(function() {
 
+    $("#icon-plus-phone").on('click', function() {
 
+        var phone = $("#inputPhone").val();
+        var operator = $("#select-operator option:selected").text();
+        var operatorValue = $("#select-operator option:selected").val();
+
+        
+        if($.trim(phone) != "" && $.trim(operator) != "" ) {
+            
+            var hidePhone = $("#hidePhones").val()+(phone+";");
+            $("#hidePhones").val(hidePhone);
+
+            var hideOp = $("#hideOperator").val()+operatorValue+";";                
+            $("#hideOperator").val(hideOp);
+
+            var tr = "<tr><td>"+ phone +"</td><td>"+ operator +"</td></tr>";
+            $("#tb-phones tbody").append(tr);
+
+            $(".hide-field").show();
+        }
     });
+
+});
 </script>
 
 </body>

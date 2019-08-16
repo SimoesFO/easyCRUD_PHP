@@ -107,9 +107,10 @@ class Dao extends _autoload {
 
 	public function setDebug($stmt, $debug = false) {
 
-		if($debug) {
-			echo "<div style='color:red'><b>".$stmt->errorInfo()[2]."</b></div>";
+		if($debug) {			
+			echo "<br /><div style='color:red'><b>".$stmt->errorInfo()[2]."</b></div>";
 			$result = $stmt->debugDumpParams();
+			echo "<br />";
 		}
 	}
 

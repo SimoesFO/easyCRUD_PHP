@@ -19,6 +19,7 @@
 	"plugins" : {
 		"jquery" : "v3.4.1",
 		"bootstrap" : "v4.3.1",
-		"jQuery Mask Plugin" : "1.7.7"
+		"jQuery Mask Plugin" : "1.7.7",
+		"DataTables" : "1.10.18"
 	}
 }
