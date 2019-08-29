@@ -20,6 +20,7 @@
 		"jquery" : "v3.4.1",
 		"bootstrap" : "v4.3.1",
 		"jQuery Mask Plugin" : "1.7.7",
-		"DataTables" : "1.10.18"
+		"DataTables" : "1.10.18",
+		"bootstrap-datepicker" : "1.9.0"
 	}
 }

@@ -1,15 +1,15 @@
 <?php
 
-class CommonFunctions {
+class Help {
 
 
-    public function preparePhone($phone, $clear = false, $ddi = false) {
+    public static function preparePhone($phone, $clear = false, $ddi = false) {
 
         if(!$clear) {
-            $this->formatPhone($phone, $ddi);
+            Help::formatPhone($phone, $ddi);
         }
 
-        return $this->clearPhone($phone, $ddi);
+        return Help::clearPhone($phone, $ddi);
     }
 
 	/************************************************************************
@@ -20,7 +20,7 @@ class CommonFunctions {
     *          Ex.: 55 (43) 99780-4323 | (043)997804323 | 33780-4323 | Etc.
     *      $ddi: Se você deseja que o DDI seja adicionado ao número. true ou false.
     ************************************************************************/
-    public function clearPhone($phone, $ddi = false) {
+    public static function clearPhone($phone, $ddi = false) {
 
         $phone = preg_replace("/[^0-9]/", "", $phone);
 
@@ -56,7 +56,7 @@ class CommonFunctions {
     *          Ex.: 55 (43) 99780-4323 | (043)997804323 | 33780-4323 | Etc.
     *      $ddi: Se você deseja que o DDI seja adicionado ao número. true ou false.
     ************************************************************************/
-    public function formatPhone($phone, $ddi = false) {
+    public static function formatPhone($phone, $ddi = false) {
 
         // Remove todos as caracteres especiais. Deixa apenas número.
         $phone = preg_replace("/[^0-9]/", "", $phone);
@@ -114,17 +114,17 @@ class CommonFunctions {
     }
 
 
-    public function prepareCpfCnpj($cpf_cnpj, $clear = false) {
+    public static function prepareCpfCnpj($cpf_cnpj, $clear = false) {
 
         if(!$clear) {
-            return formatCpfCnpj($clear);
+            return Help::formatCpfCnpj($cpf_cnpj);
         }
 
-        return $this->clearCpfCnpj($cpf_cnpj);
+        return Help::clearCpfCnpj($cpf_cnpj);
     }
 
 
-    public function clearCpfCnpj($cpf_cnpj) {
+    public static function clearCpfCnpj($cpf_cnpj) {
 
         $cpf_cnpj = preg_replace("/[^0-9]/", "", $cpf_cnpj);
 
@@ -136,16 +136,23 @@ class CommonFunctions {
     }
 
 
-    public function formatCpfCnpj($cpf_cnpj) {
-
-        if (strlen($cpf_cnpj) === 11) {
+    public static function formatCpfCnpj($cpf_cnpj) {
+        
+        if (strlen($cpf_cnpj) == 11) {
             return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $cpf_cnpj);
         } 
-        else if (strlen($cpf_cnpj) === 14) {
+        else if (strlen($cpf_cnpj) == 14) {
             return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cpf_cnpj);
         }
 
         return false;
+    }
+
+    public static function formatDateTo($date, $format='d/m/Y') {
+
+        $date = str_replace('/', '-', $date);
+        $date = date($format, strtotime($date));
+        return $date;
     }
 }
 ?>

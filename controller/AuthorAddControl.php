@@ -1,32 +1,24 @@
 <?php
 include_once ("../inc/_autoload.php");
-//var_dump($_POST);
-//var_dump($_REQUEST);
 
-class AuthorRegisterControl {
+class AuthorAddControl {
 
 	public $name = null;
 	public $birthday = null;
 	public $cpf = null;
 	public $listPhones = null;
 	public $listOperator = null;
-	public $objCF = null;
-
-	public function __construct() {
-		
-		$this->objCF = new CommonFunctions();		
-	}
-
+	
 	public function addAuthor($request = null, $debug = false) {
 		
 		try {
 
 			$this->name = $request['inputName'];
-			$this->birthday = $request['inputBirthday'];
-			$this->cpf = $request['inputCPF'];
+			$this->birthday = Help::formatDateTo($request['inputBirthday'], 'Y-m-d');
+			$this->cpf = Help::prepareCpfCnpj($request['inputCPF'], $clear = true);
 			$this->listPhones = $request['hidePhones'];
 			$this->listOperator = $request['hideOperator'];
-			
+
 			$objAuthor = new AuthorsControl();
 			$objAuthor->setName($this->name);
 			$objAuthor->setBirthday($this->birthday);
@@ -53,7 +45,7 @@ class AuthorRegisterControl {
 	        foreach ($arrayPhones as $key => $phone) {
 
 	            // Remover especial characters.
-	            $phone = $this->objCF->preparePhone($phone, $clear = true, $ddi = false);
+	            $phone = Help::preparePhone($phone, $clear = true, $ddi = false);
 
 	            $objAuthorPhone = new AuthorPhonesControl();
 	            $objAuthorPhone->setNumber($phone);
@@ -75,7 +67,7 @@ $listPhones = null;
 $listOperator = null;
 
 if(count($_REQUEST)) {	
-	$obj = new AuthorRegisterControl();
+	$obj = new AuthorAddControl();
 	$obj->addAuthor($_REQUEST, $debug = false);
 
 	$name = $obj->name;
@@ -84,6 +76,5 @@ if(count($_REQUEST)) {
 	$listPhones = $obj->listPhones;
 	$listOperator = $obj->listOperator;
 }
-
 include_once('../view/author_add.php');
 ?>

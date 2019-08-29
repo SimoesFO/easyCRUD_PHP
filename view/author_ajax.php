@@ -3,16 +3,14 @@ include_once ("../inc/_autoload.php");
 
 class AuthorAjax extends _autoload {
 
-    private $objCF =  null; 
-
     public function registerUser($debug = false) {
-        try {
-            $this->objCF = new CommonFunctions();
 
+        try {
+            
             $objAuthor = new AuthorsControl();
             $objAuthor->setName( $_REQUEST['inputName'] );
             $objAuthor->setBirthday( $_REQUEST['inputBirthday'] );
-            $objAuthor->setCpf( $this->objCF->prepareCpfCnpj($_REQUEST['inputCPF'], $clear = true) );
+            $objAuthor->setCpf( Help::prepareCpfCnpj($_REQUEST['inputCPF'], $clear = true) );
 
             Connection::beginTransaction();
             $idAuthor = $objAuthor->insert($debug);
@@ -39,7 +37,7 @@ class AuthorAjax extends _autoload {
             foreach ($arrayPhones as $key => $phone) {
 
                 // Remover especial characters.
-                $phone = $this->objCF->preparePhone($phone, $clear = true, $ddi = false);
+                $phone = Help::preparePhone($phone, $clear = true, $ddi = false);
 
                 $objAuthorPhone = new AuthorPhonesControl();
                 $objAuthorPhone->setNumber($phone);

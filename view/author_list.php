@@ -1,19 +1,3 @@
-<?php
-
-$htmlTable = "";
-for($i = 0; $i < 200; $i++) {
-
-    $htmlTable .= "<tr>
-                    <td>$i</td>
-                    <td>Felipe Oliveira Simões</td>
-                    <td>007.233.351.09</td>
-                    <td>26/11/1990</td>
-                    <td>(43) 99661-7698 <br/> (43) 8567-4356</td>
-                    <td></td>
-                </tr>";
-}
-
-?>
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -91,17 +75,7 @@ for($i = 0; $i < 200; $i++) {
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td>037</td>
-                                    <td>Felipe Oliveira Simões</td>
-                                    <td>007.233.351.09</td>
-                                    <td>26/11/1990</td>
-                                    <td>(43) 99661-7698 <br/> (43) 8567-4356</td>
-                                    <td></td>
-                                </tr>
-
                                 <?php echo $htmlTable; ?>
-                                
                             </tbody>
                         </table>
                     </div>

@@ -8,7 +8,9 @@
 
     <!-- IMPORT CSS -->
     <link rel="stylesheet" type="text/css" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" type="text/css" href="../resources/css/style.css">
+    
     <style type="text/css">
         .hide-field {
             display: none;
@@ -61,7 +63,9 @@
                 <div class="row justify-content-md-center" style="padding-top: 10px;">
 
                     <div class="col-12">
-                        <form name="form-author" id="form-author" method="POST" action="AuthorRegisterControl.php">
+                        
+                        <form name="form-author" id="form-author" method="POST" action="AuthorAddControl.php">
+                            
                             <div class="form-group row">
                                 <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
                                 <div class="col-sm-10">
@@ -72,7 +76,7 @@
                             <div class="form-group row">
                                 <label for="inputBirthday" class="col-sm-2 col-form-label">Birthday:</label>
                                 <div class="col-sm-10">
-                                    <input type="date" class="form-control" id="inputBirthday" name="inputBirthday">
+                                    <input type="text" class="form-control" id="inputBirthday" name="inputBirthday" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-mask="00/00/0000" data-mask-reverse="true" placeholder="00/00/0000">
                                 </div>
                             </div>
 
@@ -169,6 +173,7 @@
 <script type="text/javascript" src="../resources/plugins/jquery.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/jQuery-Mask-Plugin/dist/jquery.mask.min.js"></script>
+<script type="text/javascript" src="../resources/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 <script type="text/javascript">
 $(function() {
