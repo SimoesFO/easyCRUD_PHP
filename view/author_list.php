@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../resources/css/style.css">
 
     <style type="text/css">
-        .hide-field {
-            display: none;
+        .img-icons {
+            margin-right: 15px;
         }
     </style>
     

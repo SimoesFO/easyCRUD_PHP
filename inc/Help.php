@@ -4,9 +4,9 @@ class Help {
 
 
     public static function preparePhone($phone, $clear = false, $ddi = false) {
-
+        
         if(!$clear) {
-            Help::formatPhone($phone, $ddi);
+            return Help::formatPhone($phone, $ddi);
         }
 
         return Help::clearPhone($phone, $ddi);

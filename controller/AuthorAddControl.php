@@ -23,10 +23,9 @@ class AuthorAddControl {
 			$objAuthor->setName($this->name);
 			$objAuthor->setBirthday($this->birthday);
 			$objAuthor->setCpf($this->cpf);
-
+			$this->addPhones($objAuthor, $debug);
 			Connection::beginTransaction();
-				$idAuthor = $objAuthor->insert($debug);
-				$this->insertPhones($idAuthor, $debug);
+				$idAuthor = $objAuthor->save($debug);
 			Connection::commit();
 		}
 		catch(Exception $e) {
@@ -35,10 +34,9 @@ class AuthorAddControl {
 		}
 	}
 
-	private function insertPhones($idAuthor, $debug = false) {
+	private function addPhones($objAuthor, $debug = false) {
 
 	    try {
-
 	        $arrayPhones = explode(";", mb_substr($this->listPhones, 0, -1));
 	        $arrayOperadora = explode(";", mb_substr($this->listOperator, 0, -1));
 
@@ -47,11 +45,10 @@ class AuthorAddControl {
 	            // Remover especial characters.
 	            $phone = Help::preparePhone($phone, $clear = true, $ddi = false);
 
-	            $objAuthorPhone = new AuthorPhonesControl();
+				$objAuthorPhone = new AuthorPhonesControl();
 	            $objAuthorPhone->setNumber($phone);
 	            $objAuthorPhone->setOperator($arrayOperadora[$key]);
-	            $objAuthorPhone->setAuthorsId($idAuthor);
-	            $objAuthorPhone->insert($debug);
+				$objAuthor->addPhone($objAuthorPhone);
 	        }
 	    }
 	    catch (Exception $e) {
@@ -66,7 +63,7 @@ $cpf = null;
 $listPhones = null;
 $listOperator = null;
 
-if(count($_REQUEST)) {	
+if( !isset( $_REQUEST['id'] ) ) {
 	$obj = new AuthorAddControl();
 	$obj->addAuthor($_REQUEST, $debug = false);
 
@@ -75,6 +72,20 @@ if(count($_REQUEST)) {
 	$cpf = $obj->cpf;
 	$listPhones = $obj->listPhones;
 	$listOperator = $obj->listOperator;
+}
+else {
+	$obj = new AuthorsControl();
+	$obj->setId($_REQUEST['id']);
+	$result = $obj->selectId($debug = false);
+	if($result) {
+	
+		$name = $obj->name;
+		$birthday = Help::formatDateTo($obj->birthday);
+		$cpf = $obj->cpf;
+		//$listPhones = $obj->listPhones;
+		//$listOperator = $obj->listOperator;
+	}
+
 }
 include_once('../view/author_add.php');
 ?>

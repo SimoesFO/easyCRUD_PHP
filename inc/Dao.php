@@ -309,7 +309,16 @@ class Dao extends _autoload {
 
 			// CHECK IF HAS ERROR
 			if($isNotError) {
-				return $this->con->lastInsertId();
+				
+				$id = $this->con->lastInsertId();
+
+				// SET NEW ID TO PK FOR OBJECT.
+				foreach ($this->arrayPrimaryKeyTable as $pk) {
+					$function = 'set'.$this->prepareField($pk);
+					$this->$function($id);
+				}
+
+				return $id;
 			}
 			else {
 				throw new Exception ("Error! ".get_parent_class(get_class($this))." - Could not insert data!");

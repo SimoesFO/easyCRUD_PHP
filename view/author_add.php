@@ -76,14 +76,14 @@
                             <div class="form-group row">
                                 <label for="inputBirthday" class="col-sm-2 col-form-label">Birthday:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputBirthday" name="inputBirthday" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-mask="00/00/0000" data-mask-reverse="true" placeholder="00/00/0000">
+                                    <input type="text" class="form-control" id="inputBirthday" name="inputBirthday" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-mask="00/00/0000" data-mask-reverse="true" placeholder="00/00/0000" value="<?= $birthday; ?>" />
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="inputCPF" class="col-sm-2 col-form-label">CPF:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputCPF" name="inputCPF" data-mask="000.000.000-00" data-mask-reverse="true" placeholder="000.000.000-00">
+                                    <input type="text" class="form-control" id="inputCPF" name="inputCPF" data-mask="000.000.000-00" data-mask-reverse="true" placeholder="000.000.000-00"  value="<?= $cpf; ?>" />
                                 </div>
                             </div>
 
