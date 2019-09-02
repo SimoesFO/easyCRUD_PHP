@@ -8,17 +8,32 @@ class AuthorsControl extends Authors {
 
 	public function save( $debug = false ) {
 
-		if( !empty( $this->getId() ) ) {
-			// Update
-			echo "update";
+		try {
+			if( !empty( $this->getId() ) ) {
+				// Update
+				echo "update";
+			}
+			else {
+				// Insert
+				$id = $this->insert( $debug );
+				$this->insertPhones( $debug );
+				return $id;
+			}
 		}
-		else {
-			// Insert
-			$id = $this->insert( $debug);
-			$this->insertPhones( $debug );
-			return $id;
+		catch ( Exception $e ) {
+			throw new Exception ( $e->getMessage() );
 		}
+	}
 
+	public function delete( $debug = false ) {
+
+		try {
+			$this->deletePhones( $debug );
+			parent::delete( $debug );
+		}
+		catch ( Exception $e ) {
+			throw new Exception ( $e->getMessage() );
+		}
 	}
 }
 ?>

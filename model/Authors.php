@@ -70,5 +70,31 @@ class Authors extends Dao  {
 			throw new Exception ($e->getMessage());
 		}
 	}
+
+	public function deletePhones( $debug = false ) {
+
+		try {
+
+			// SQL
+			$query = "DELETE FROM author_phones WHERE authors_id = :idAuthor";
+			
+			// PARAMS
+			$arrayParams = array(':idAuthor' => $this->getId());
+
+			// EXECUTE
+			$stmt = $this->executeQuery($query, $arrayParams, $debug);
+
+			// CHECK IF RETURNED RESULT
+			if($stmt) {
+				return $stmt->rowCount();
+			}
+			else {
+				return false;
+			}
+		}
+		catch (Exception $e) {
+			throw new Exception ($e->getMessage());
+		}
+	}
 }
 ?>
