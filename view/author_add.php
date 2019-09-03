@@ -178,8 +178,9 @@
 <script type="text/javascript">
 $(function() {
 
+    /*
     $("#icon-plus-phone").on('click', function() {
-
+        
         var phone = $("#inputPhone").val();
         var operator = $("#select-operator option:selected").text();
         var operatorValue = $("#select-operator option:selected").val();
@@ -198,6 +199,25 @@ $(function() {
 
             $(".hide-field").show();
         }
+    });
+    */
+
+    var amountPhones = 0;
+    $( '#icon-plus-phone' ).on( 'click', function() {
+
+        var phone = $("#inputPhone").val();
+        var operator = $("#select-operator option:selected").text();
+        var operatorValue = $("#select-operator option:selected").val();
+
+        var tr = "<tr>";
+        var inputPhone = "<td><input type='text' class='form-control' name='input-phone[]' data-mask='(00) 00000-0000' placeholder='(00) 00000-0000' value='"+ phone +"'></td>";
+        var inputOperator = "<td><input type='text' class='form-control' name='input-operator[]' value='"+ operatorValue +"'></td>";
+        tr += inputPhone + inputOperator + "</tr>";
+
+        $( '#tb-phones tbody' ).append(tr);
+
+        $(".hide-field").show();
+        amountPhones ++;
     });
 
 });

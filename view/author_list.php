@@ -47,6 +47,7 @@
     </nav>
 </section>
 
+<!-- CONTENT -->
 <section class='content'>
 
     <div class="container">
@@ -91,18 +92,25 @@
 </section>
 
 
-<div class="modal" tabindex="-1" role="dialog" id="modal-alert">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-
-            <div class="modal-body">
-            </div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn" data-dismiss="modal" id="btn-close-alert">Fechar</button>
-            </div>
-        </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Author</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you really want to delete this author?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" id="btn-delete">Delete</button>
+      </div>
     </div>
+  </div>
 </div>
 
 
@@ -129,6 +137,17 @@ $(function() {
 
     $(".buttons-html5").removeClass("btn-secondary");
     $(".buttons-html5").addClass("btn-primary");
+
+    var idAuthor = null;
+    $(".delete-author").on('click', function() {
+        
+        idAuthor = $(this).data('id');
+        $("#exampleModal").modal('show');
+    });
+
+    $("#btn-delete").on('click', function() {
+        window.location.href = "AuthorDeleteControl.php?id="+idAuthor;
+    });
 });
 
 </script>

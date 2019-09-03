@@ -23,6 +23,4 @@ if( isset( $_REQUEST['id'] ) ) {
 	$obj = new AuthorDeleteControl();
 	$obj->deleteAuthors( $_REQUEST, $debug = false );
 }
-
-//include_once('../view/author_list.php');
 ?>

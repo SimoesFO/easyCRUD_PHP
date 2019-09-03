@@ -16,7 +16,7 @@ class AuthorListControl {
 				$htmlPhones = $this->loadPhonesAuthor( $author, $debug );
 
 				$linkEdit = "AuthorAddControl.php?id=". $author->getId();
-				$linkDelete = "AuthorDeleteControl.php?id=". $author->getId();
+				//$linkDelete = "AuthorDeleteControl.php?id=". $author->getId();
 				
 				$html .= "
 					<tr>
@@ -27,7 +27,7 @@ class AuthorListControl {
 						<td>". $htmlPhones ."</td>
 						<td>
 							<a href='$linkEdit' class='img-icons'><img src='../resources/img/icons/pencil.svg' /></a>
-							<a href='$linkDelete' class='img-icons'><img src='../resources/img/icons/trashcan.svg' /></a>
+							<a href='javascript:void(0)' class='img-icons delete-author' data-id='". $author->getId() ."'><img src='../resources/img/icons/trashcan.svg' /></a>
 						</td>
 					</tr>";
 			}
