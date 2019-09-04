@@ -115,11 +115,12 @@
                             </div>
 
                             <div class="form-group row hide-field" id="div-tb-phones">
-                                <div class="col-sm-9 offset-sm-2">
+                                <div class="col-sm-10 offset-sm-2">
                                     <table class="table table-sm" id="tb-phones">
                                         <thead>
                                             <th>Phones</th>
                                             <th>Operator</th>
+                                            <th></th>
                                         </thead>
                                         <tbody>
                                         </tbody>
@@ -133,12 +134,10 @@
                                     <button type="submit" class="btn btn-primary" id="btn-salvar">Salvar</button>
                                 </div>
                             </div>
-
+                            <!--
                             <input type="hidden" name="hidePhones" id="hidePhones" value="">
                             <input type="hidden" name="hideOperator" id="hideOperator" value="">
-
-                            
-                           
+                            --> 
                         </form>
                     </div>
                     
@@ -202,22 +201,28 @@ $(function() {
     });
     */
 
-    var amountPhones = 0;
     $( '#icon-plus-phone' ).on( 'click', function() {
 
-        var phone = $("#inputPhone").val();
-        var operator = $("#select-operator option:selected").text();
-        var operatorValue = $("#select-operator option:selected").val();
+        var phone = $( "#inputPhone" ).val();
+        var operator = $( "#select-operator option:selected" ).text();
+        var operatorValue = $( "#select-operator option:selected" ).val();
 
-        var tr = "<tr>";
-        var inputPhone = "<td><input type='text' class='form-control' name='input-phone[]' data-mask='(00) 00000-0000' placeholder='(00) 00000-0000' value='"+ phone +"'></td>";
-        var inputOperator = "<td><input type='text' class='form-control' name='input-operator[]' value='"+ operatorValue +"'></td>";
-        tr += inputPhone + inputOperator + "</tr>";
+        var templatePhone = "<?= $templatePhone; ?>";
+        templatePhone = templatePhone.replace( ":phone", phone );
+        templatePhone = templatePhone.replace( ":operatorValue", operatorValue );
+        templatePhone = templatePhone.replace( ":operator", operator );
+        $( '#tb-phones tbody' ).append( templatePhone );
 
-        $( '#tb-phones tbody' ).append(tr);
+        $( ".hide-field" ).show();
+    });
 
-        $(".hide-field").show();
-        amountPhones ++;
+    $( "#tb-phones" ).on( 'click', '.delete-phone', function() {
+        
+        $( this ).closest( 'tr' ).remove();
+
+        if( $.trim( $( "#tb-phones tbody" ).html() ) == "" ) {
+            $( ".hide-field" ).hide();
+        }
     });
 
 });

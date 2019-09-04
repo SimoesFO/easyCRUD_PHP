@@ -10,13 +10,17 @@ class Authors extends Dao  {
 		parent::__construct();
 	}
 
-	public function addPhone(AuthorPhones $phone) {
-		$this->arrayAuthorPhones[] = $phone;
+	public function setPhones($arrayPhones) {
+		$this->arrayAuthorPhones = $arrayPhones;
 	}
 
 	public function getPhones() {
 		return $this->arrayAuthorPhones;
 	}
+
+	public function addPhone(AuthorPhones $phone) {
+		$this->arrayAuthorPhones[] = $phone;
+	}	
 
 	public function insertPhones( $debug = false ) {
 

@@ -10,15 +10,16 @@ class AuthorAddControl {
 			$objAuthor->setName( $request['inputName'] );
 			$objAuthor->setBirthday( Help::formatDateTo( $request['inputBirthday'], 'Y-m-d' ) );
 			$objAuthor->setCpf( Help::prepareCpfCnpj( $request['inputCPF'], $clear = true ) );
-			$objAuthor->setListPhones( $request['hidePhones'] );
-			$objAuthor->setListOperator( $request['hideOperator'] );
+			
+			$arrayAuthorPhones = $this->addPhones( $request, $debug );
+			$objAuthor->setPhones( $arrayAuthorPhones );
 
-			//$this->addPhones($objAuthor, $debug);
 			Connection::beginTransaction();
 				$idAuthor = $objAuthor->save($debug);
 			Connection::commit();
 
-			return $objAuthor;
+			header("Location: AuthorListControl.php");
+			die();
 		}
 		catch(Exception $e) {
 			Connection::rollBack();
@@ -26,12 +27,12 @@ class AuthorAddControl {
 		}
 	}
 
-	private function addPhones($objAuthor, $debug = false) {
+	private function addPhones($request, $debug = false) {
 
 	    try {
-	        $arrayPhones = explode(";", mb_substr($this->listPhones, 0, -1));
-	        $arrayOperadora = explode(";", mb_substr($this->listOperator, 0, -1));
-
+			$arrayAuthorPhones = array();
+			$arrayPhones = $request['field-phone'];
+			$arrayOperator = $request['field-operator'];
 	        foreach ($arrayPhones as $key => $phone) {
 
 	            // Remover especial characters.
@@ -39,11 +40,13 @@ class AuthorAddControl {
 
 				$objAuthorPhone = new AuthorPhonesControl();
 	            $objAuthorPhone->setNumber($phone);
-	            $objAuthorPhone->setOperator($arrayOperadora[$key]);
-				$objAuthor->addPhone($objAuthorPhone);
-	        }
+	            $objAuthorPhone->setOperator($arrayOperator[$key]);
+				$arrayAuthorPhones[] = $objAuthorPhone;
+			}
+			
+			return $arrayAuthorPhones;
 	    }
-	    catch (Exception $e) {
+	    catch (ExceptiosetPhonesn $e) {
 	        throw new Exception ($e->getMessage());
 	    }
 	}
@@ -65,6 +68,26 @@ class AuthorAddControl {
 	        throw new Exception ($e->getMessage());
 	    }
 	}
+
+	public function templatePhone() {
+
+		$html = "
+		<tr>
+			<td class='col-6'>
+				<input type='text' class='form-control' name='field-phone[]' data-mask='(00) 00000-0000' placeholder='(00) 00000-0000' readonly value=':phone' >
+			</td>
+			<td class='col-3'>
+				<select class='form-control' name='field-operator[]' readonly>
+					<option value=':operatorValue' selected>:operator</option>
+				</select>
+			</td>
+			<td class='col-1' align='center' style='vertical-align: middle;'>
+				<a href='javascript:void(0)' class='delete-phone'><img src='../resources/img/icons/trashcan.svg' width='15px' id='icon-delete-phone' title='Delete Phone'></a>
+			</td>
+		</tr>";
+		
+		return preg_replace( "/\r|\n|\t/", "", $html );
+	}
 }
 
 $name = null;
@@ -73,22 +96,13 @@ $cpf = null;
 $listPhones = null;
 $listOperator = null;
 
+$obj = new AuthorAddControl();
+$templatePhone = $obj->templatePhone();
 if( !isset( $_REQUEST['id'] ) && !empty( $_REQUEST ) ) {
 	
-
-	var_dump($_REQUEST); die();
-	$obj = new AuthorAddControl();
 	$objAuthor = $obj->addAuthor($_REQUEST, $debug = false);
-	
-	$name = $objAuthor->getName();
-	$birthday = $objAuthor->getBirthday();
-	$cpf = $objAuthor->getCpf();
-	$listPhones = $objAuthor->getListPhones();
-	$listOperator = $objAuthor->getListOperator();
-	
 }
 else if( isset( $_REQUEST['id'] ) ) {
-	$obj = new AuthorAddControl();
 	$obj->loadDataAuthors($_REQUEST, $debug = false);
 }
 
