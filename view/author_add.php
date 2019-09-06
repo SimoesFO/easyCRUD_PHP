@@ -97,11 +97,11 @@
                                 <div class="col-sm-3">
                                     <select class="form-control" id="select-operator" placeholder="operator...">
                                         <option value=""></option>
-                                        <option value="residencial">Residêncial</option>
-                                        <option value="claro">Claro</option>
-                                        <option value="oi">Oi</option>
-                                        <option value="tim">Tim</option>
-                                        <option value="vivo">Vivo</option>
+                                        <option value="Residêncial">Residêncial</option>
+                                        <option value="Claro">Claro</option>
+                                        <option value="Oi">Oi</option>
+                                        <option value="Tim">Tim</option>
+                                        <option value="Vivo">Vivo</option>
                                     </select>
 
                                     <small id="operatorHelp" class="form-text text-muted">operator</small>
@@ -123,10 +123,13 @@
                                             <th></th>
                                         </thead>
                                         <tbody>
+                                            <?= $htmlPhones; ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
+                            <input type='hidden' name='idAuthor' value='<?= $id ?>' />
 
                             <div class="row">
                                 <div class="col-12 text-right">
@@ -134,10 +137,6 @@
                                     <button type="submit" class="btn btn-primary" id="btn-salvar">Salvar</button>
                                 </div>
                             </div>
-                            <!--
-                            <input type="hidden" name="hidePhones" id="hidePhones" value="">
-                            <input type="hidden" name="hideOperator" id="hideOperator" value="">
-                            --> 
                         </form>
                     </div>
                     
@@ -177,43 +176,24 @@
 <script type="text/javascript">
 $(function() {
 
-    /*
-    $("#icon-plus-phone").on('click', function() {
-        
-        var phone = $("#inputPhone").val();
-        var operator = $("#select-operator option:selected").text();
-        var operatorValue = $("#select-operator option:selected").val();
-
-        
-        if($.trim(phone) != "" && $.trim(operator) != "" ) {
-            
-            var hidePhone = $("#hidePhones").val()+(phone+";");
-            $("#hidePhones").val(hidePhone);
-
-            var hideOp = $("#hideOperator").val()+operatorValue+";";                
-            $("#hideOperator").val(hideOp);
-
-            var tr = "<tr><td>"+ phone +"</td><td>"+ operator +"</td></tr>";
-            $("#tb-phones tbody").append(tr);
-
-            $(".hide-field").show();
-        }
-    });
-    */
+    if( $.trim($( '#tb-phones tbody' ).html()) != "") {
+        $( ".hide-field" ).show();
+    }
 
     $( '#icon-plus-phone' ).on( 'click', function() {
 
         var phone = $( "#inputPhone" ).val();
-        var operator = $( "#select-operator option:selected" ).text();
-        var operatorValue = $( "#select-operator option:selected" ).val();
+        var operator = $( "#select-operator option:selected" ).val();
 
         var templatePhone = "<?= $templatePhone; ?>";
-        templatePhone = templatePhone.replace( ":phone", phone );
-        templatePhone = templatePhone.replace( ":operatorValue", operatorValue );
-        templatePhone = templatePhone.replace( ":operator", operator );
+        templatePhone = templatePhone.replaceAll( ":phone", phone );
+        templatePhone = templatePhone.replaceAll( ":operator", operator );
+        console.log(templatePhone);
         $( '#tb-phones tbody' ).append( templatePhone );
 
         $( ".hide-field" ).show();
+        $( "#inputPhone" ).val("");
+        $( "#select-operator" ).val("");
     });
 
     $( "#tb-phones" ).on( 'click', '.delete-phone', function() {
@@ -226,6 +206,11 @@ $(function() {
     });
 
 });
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
 </script>
 
 </body>

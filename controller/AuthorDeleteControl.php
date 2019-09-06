@@ -3,10 +3,13 @@ include_once ("../inc/_autoload.php");
 
 class AuthorDeleteControl {
 
+	/************************************************************
+	 * Description: Delete author from database, with id equals 
+	 * $request['id']
+	 ************************************************************/
 	public function deleteAuthors( $request = null, $debug = false ) {
 		
 		try {
-			echo "teste";
 			$objAuthor = new AuthorsControl();
 			$objAuthor->setId( $request['id'] );
 			$objAuthor->delete( $debug );

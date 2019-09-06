@@ -1,10 +1,12 @@
 <?php
 class Dao extends _autoload {
 
-	private $arrayFieldsTable;
-	private $arrayPrimaryKeyTable;
-	protected $con;
+	private $arrayFieldsTable; // Store all field of a table.
+	private $arrayPrimaryKeyTable; // Store all Pk of a table.
+	private $arrayFieldsTableNoPK; // Store all field of a table, with except the PKs.
+	protected $con; // Store Instance Connection.
 
+	// CONSTRUCT
 	function __construct() {
 
 		if(!$this->con) {
@@ -17,18 +19,28 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Define a new instance connection to model.
+	 * You can find a new instance name in file config.json
+	 ************************************************************/
 	public function setInstance($instanceName) {
 
 		$this->con = Connection::getInstance($instanceName);
 	}
 
 
+	/************************************************************
+	 * Description: Get the instance connection.
+	 ************************************************************/
 	public function getInstance() {
 
 		return $this->con;
 	}
 
 
+	/************************************************************
+	 * Description: Get all columns of the database table
+	 ************************************************************/
 	private function getFieldsTable($debug = false) {
 
 		try {
@@ -56,24 +68,38 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Store in array all columns of a table, so that
+	 * they can be used later.
+	 ************************************************************/
 	public function getFieldsTablePrepare($debug = false) {
 
+		// Get all Field table.
 		$arrayFields = $this->getFieldsTable($debug);
 
+		// Interator for de all fields.
 		foreach ($arrayFields as $field) {
 			
 			if($field['Key'] == 'PRI') {
+				// Store PKs.
 				array_push($this->arrayPrimaryKeyTable, $field['Field']);
 			}
 			else {
+				// Store all fields, without PKs.
 				array_push($this->arrayFieldsTableNoPK, $field['Field']);
 			}
 
+			// Store all fields, with PKs.
 			array_push($this->arrayFieldsTable, $field['Field']);
 		}
 	}
 
 
+	/************************************************************
+	 * Description: Prepare field of table to be used in aplication.
+	 * Transform all field table in camel-case pattern.
+	 * Ex.: AutHor_ID => authorId
+	 ************************************************************/
 	public function prepareField($field) {
 
 		$field = mb_strtolower($field);
@@ -84,7 +110,11 @@ class Dao extends _autoload {
 		return $field;
 	}
 
-	
+
+	/************************************************************
+	 * Description: Automatically generates a clause WHERE the a 
+	 * SQL Query, base in PK of table.
+	 ************************************************************/
 	private function getWhereDefault() {
 
 		// WHERE
@@ -105,6 +135,9 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Show all erros in a SQL Query.
+	 ************************************************************/
 	public function setDebug($stmt, $debug = false) {
 
 		if($debug) {			
@@ -115,6 +148,9 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Store in array, all values of all columns table.
+	 ************************************************************/
 	private function getArrayValues($pk = false, $onlyPK = false, $debug = false) {
 
 		$arrayValues = array();
@@ -123,7 +159,9 @@ class Dao extends _autoload {
 			// VALUES	
 			foreach ($this->arrayFieldsTableNoPK as $key => $fieldName) {
 				
+				//Get a name of column table without '_', and in camel-case.
 				$fieldNameAux = lcfirst($this->prepareField($fieldName));
+
 				// Check if the field has defined (set).
 				if(isset($this->$fieldNameAux)) {
 					$function = 'get'.$this->prepareField($fieldName);
@@ -158,6 +196,10 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Sets for the object of a class all the values 
+	 * ​​of a resultSet automaticlly
+	 ************************************************************/
 	public function setRow($row = null, $debug = false) {
 
 		try {
@@ -178,6 +220,9 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Search all row (register) of a table.
+	 ************************************************************/
 	public function selectAll($debug = false) {
 		
 		try {
@@ -221,6 +266,11 @@ class Dao extends _autoload {
 		}
 	}
 
+
+	/************************************************************
+	 * Description: Search a row (register) of a table with 
+	 * determined ID.
+	 ************************************************************/
 	public function selectId($debug = false) {
 		
 		try {
@@ -266,6 +316,9 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Saves the object of a class to a table (model).
+	 ************************************************************/
 	public function insert($debug = false) {
 
 		try {
@@ -329,7 +382,10 @@ class Dao extends _autoload {
 		}
 	}
 
-
+	
+	/************************************************************
+	 * Description: Update detemined row (register) table.
+	 ************************************************************/
 	public function update($debug = false) {
 
 		try {
@@ -376,6 +432,10 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Delete detemined row (register) table, with
+	 * ID.
+	 ************************************************************/
 	public function delete($debug = false) {
 
 		try {
@@ -409,6 +469,9 @@ class Dao extends _autoload {
 	}
 
 
+	/************************************************************
+	 * Description: Execut SQL Query personality.
+	 ************************************************************/
 	public function executeQuery($query = null, $arrayParams = null, $debug = false) {
 
 		try {

@@ -1,33 +1,28 @@
-.header-site {
-	background-image: url(../img/img01.jpg);
-	background-position: center top;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-	color: #FFF;
-	padding-top: 300px;
-	padding-bottom: 300px;
+.row-title {
+	margin-bottom: 30px;
 }
 
-.content-site {
-	padding-top: 200px;
-	padding-bottom: 200px;
+.div-content {
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	padding-top: 10px;
+	padding-bottom: 20px;
 }
 
-.img-site {
-	background-image: url(../img/img02.jpg);
-	background-position: center top;
-	background-position: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-	color: #FFF;
-	padding-top: 200px;
-	padding-bottom: 200px;
+.img-icons {
+	margin-right: 15px;
+}
+.btn-group {
+	position: absolute;
+	right: 0px;
+	margin-right: 300px;
+	
+}
+.btn-new-author {
+	position: absolute; 
+	z-index: 1;
 }
 
-.footer-site {
-	background-color: #000;
-	color: #FFF;
-	padding-top: 50px;
-	padding-bottom: 50px;
+.td-center {
+	text-align: center;
 }

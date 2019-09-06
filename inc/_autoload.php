@@ -1,6 +1,11 @@
 <?php
+// Get Directory Root of Project.
 $pathRoot = $_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1));
 
+/************************************************************
+ * Description: Scanner all file in a directory, search for
+ * class and include this class
+ ************************************************************/
 function scanFolder($folder, $class_name) {
 
 	$array = scandir($folder);
@@ -26,7 +31,10 @@ function scanFolder($folder, $class_name) {
 	return;
 }
 
-
+/************************************************************
+ * Description: Call this funcion each time create a instance
+ * of the object, searching for include file this class.
+ ************************************************************/
 spl_autoload_register(function ($class_name) {
 
 	$class_name = $class_name . '.php';

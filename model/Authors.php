@@ -9,19 +9,35 @@ class Authors extends Dao  {
 		$this->setTableName('authors');
 		parent::__construct();
 	}
+	
 
+	/************************************************************
+	 * Description: Set in Author Class a array the AuthorPhones.
+	 ************************************************************/
 	public function setPhones($arrayPhones) {
 		$this->arrayAuthorPhones = $arrayPhones;
 	}
 
+
+	/************************************************************
+	 * Description: Return array the AuthorPhones
+	 ************************************************************/
 	public function getPhones() {
 		return $this->arrayAuthorPhones;
 	}
 
+
+	/************************************************************
+	 * Description: Add in Author one phone each time
+	 ************************************************************/
 	public function addPhone(AuthorPhones $phone) {
 		$this->arrayAuthorPhones[] = $phone;
 	}	
 
+
+	/************************************************************
+	 * Description: Insert the database all phones from an Author.
+	 ************************************************************/
 	public function insertPhones( $debug = false ) {
 
 		try {
@@ -39,10 +55,12 @@ class Authors extends Dao  {
 	}
 
 
+	/************************************************************
+	 * Description: Load from database all phones from an Author.
+	 ************************************************************/
 	public function loadPhones( $debug = false ) {
 
 		try {
-
 			// SQL
 			$query = "SELECT * FROM author_phones WHERE authors_id = :idAuthor";
 			
@@ -75,10 +93,13 @@ class Authors extends Dao  {
 		}
 	}
 
+
+	/************************************************************
+	 * Description: Delete from database all phones from an Author.
+	 ************************************************************/
 	public function deletePhones( $debug = false ) {
 
 		try {
-
 			// SQL
 			$query = "DELETE FROM author_phones WHERE authors_id = :idAuthor";
 			

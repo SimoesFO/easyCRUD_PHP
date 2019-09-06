@@ -7,7 +7,11 @@ class Connection {
 
 	private function __construct() {
 	}
+	
 
+	/************************************************************
+	 * Description: Get all configuration from file config.json.
+	 ************************************************************/
 	private static function getConfig() {
 
 		$pathRoot = $_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0, strpos($_SERVER['PHP_SELF'],"/",1))."/config/";
@@ -17,6 +21,9 @@ class Connection {
 	}
 
 
+	/************************************************************
+	 * Description: Begin Transaction Control.
+	 ************************************************************/
 	public static function beginTransaction() {
 		
 		self::$isTransaction = true;
@@ -26,6 +33,9 @@ class Connection {
 	}
 
 
+	/************************************************************
+	 * Description: Commit Transaction Control.
+	 ************************************************************/
 	public static function commit() {
 		foreach (self::$con as $instanceName => $instance) {
 			$instance->commit();
@@ -33,6 +43,9 @@ class Connection {
 	}
 
 
+	/************************************************************
+	 * Description: RollBack Transaction Control.
+	 ************************************************************/
 	public static function rollBack() {
 
 		foreach (self::$con as $instanceName => $instance) {
@@ -41,20 +54,26 @@ class Connection {
 	}
 
 
+	/************************************************************
+	 * Description: Get or Create a Instance Connection.
+	 ************************************************************/
 	public static function getInstance($instanceName = null) {
 		
 		try {
-
 			self::getConfig();
 
+			// Checks whether a name has been sent the instance name.
 			if(empty(trim($instanceName))) {
+				// If not, create default instance
 				$instance = self::$arrayConfig->connections->default;
 				$instanceName = $instance;
 			}
 			else {
+				// Create instance with a name.
 				$instance = $instanceName;	
 			}
 
+			// Check if doesn't exist a instance with this name.
 			if(!isset(self::$con[$instanceName])) {
 
 				$host = self::$arrayConfig->connections->$instance->host;
@@ -62,6 +81,7 @@ class Connection {
 				$user = self::$arrayConfig->connections->$instance->user;
 				$pws = self::$arrayConfig->connections->$instance->pws;
 
+				// Create Instance Connection
 				self::$con[$instanceName] = new PDO("mysql:host=". $host .";dbname=". $dbname .";charset=utf8", $user, $pws);
 
 				if(self::$isTransaction) {

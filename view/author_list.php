@@ -11,13 +11,6 @@
     <link rel="stylesheet" type="text/css" href="../resources/plugins/DataTables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="../resources/plugins/DataTables/Buttons-1.5.6/buttons.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../resources/css/style.css">
-
-    <style type="text/css">
-        .img-icons {
-            margin-right: 15px;
-        }
-    </style>
-    
 </head>
 
 <body>
@@ -54,15 +47,19 @@
 
         <div class="row justify-content-md-center">
 
-            <div class="col-md-12" style="border: 1px solid #CCC">
+            <div class="col-md-12 div-content">
 
-                <div class="row">
+                <div class="row row-title">
                     <div class="col-12 text-center">
                         <h1>List of Author</h1>
                     </div>
                 </div>
 
-                <div class="row justify-content-md-center" style="padding-top: 10px;">
+                <div class='btn-new-author'>
+                    <a  href="AuthorAddControl.php" class="btn btn-primary">New Author</a>
+                </div>
+
+                <div class="row justify-content-md-center">
 
                     <div class="col-12">
                         <table id="tb-list-authors" class="table table-striped table-bordered table-hover">
@@ -72,7 +69,7 @@
                                 <th>CPF</th>
                                 <th>Date of Birthday</th>
                                 <th>Phones</th>
-                                <th>Actions</th>
+                                <th class='td-center'>Actions</th>
                             </thead>
 
                             <tbody>
@@ -120,37 +117,7 @@
 <script type="text/javascript" src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/jQuery-Mask-Plugin/dist/jquery.mask.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/DataTables/datatables.min.js"></script>
-
-<script type="text/javascript">
-
-$(function() {
-
-     $('#tb-list-authors').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5'
-        ]
-    } );
-
-    $(".buttons-html5").removeClass("btn-secondary");
-    $(".buttons-html5").addClass("btn-primary");
-
-    var idAuthor = null;
-    $(".delete-author").on('click', function() {
-        
-        idAuthor = $(this).data('id');
-        $("#exampleModal").modal('show');
-    });
-
-    $("#btn-delete").on('click', function() {
-        window.location.href = "AuthorDeleteControl.php?id="+idAuthor;
-    });
-});
-
-</script>
+<script type="text/javascript" src="../resources/js/newsWeek.js"></script>
 
 </body>
 </html>

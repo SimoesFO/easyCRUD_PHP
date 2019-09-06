@@ -16,7 +16,6 @@ class AuthorListControl {
 				$htmlPhones = $this->loadPhonesAuthor( $author, $debug );
 
 				$linkEdit = "AuthorAddControl.php?id=". $author->getId();
-				//$linkDelete = "AuthorDeleteControl.php?id=". $author->getId();
 				
 				$html .= "
 					<tr>
@@ -25,7 +24,7 @@ class AuthorListControl {
 						<td>". Help::prepareCpfCnpj( $author->getCpf() ) ."</td>
 						<td>". Help::formatDateTo( $author->getBirthday() ) ."</td>
 						<td>". $htmlPhones ."</td>
-						<td>
+						<td class='td-center'>
 							<a href='$linkEdit' class='img-icons'><img src='../resources/img/icons/pencil.svg' /></a>
 							<a href='javascript:void(0)' class='img-icons delete-author' data-id='". $author->getId() ."'><img src='../resources/img/icons/trashcan.svg' /></a>
 						</td>

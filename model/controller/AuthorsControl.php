@@ -6,12 +6,17 @@ class AuthorsControl extends Authors {
 		parent::__construct();		
 	}
 
+	/************************************************************
+	 * Description: Insert or Update the Author.
+	 ************************************************************/
 	public function save( $debug = false ) {
 
 		try {
-			if( !empty( $this->getId() ) ) {
+			if( !empty( trim( $this->getId() ) ) ) {
 				// Update
-				echo "update";
+				$this->update( $debug );
+				$this->deletePhones( $debug );
+				$this->insertPhones( $debug );
 			}
 			else {
 				// Insert
@@ -25,11 +30,15 @@ class AuthorsControl extends Authors {
 		}
 	}
 
+
+	/************************************************************
+	 * Description: Delete author from database.
+	 ************************************************************/
 	public function delete( $debug = false ) {
 
 		try {
-			$this->deletePhones( $debug );
-			parent::delete( $debug );
+			$this->deletePhones( $debug ); // Delete all phones from an author.
+			parent::delete( $debug ); // Delete author.
 		}
 		catch ( Exception $e ) {
 			throw new Exception ( $e->getMessage() );
