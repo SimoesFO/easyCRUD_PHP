@@ -165,52 +165,16 @@
     </div>
 </div>
 
-
-
 <!-- IMPORT JS -->
 <script type="text/javascript" src="../resources/plugins/jquery.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/jQuery-Mask-Plugin/dist/jquery.mask.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="../resources/js/newsWeek-author.js"></script>
 
 <script type="text/javascript">
-$(function() {
-
-    if( $.trim($( '#tb-phones tbody' ).html()) != "") {
-        $( ".hide-field" ).show();
-    }
-
-    $( '#icon-plus-phone' ).on( 'click', function() {
-
-        var phone = $( "#inputPhone" ).val();
-        var operator = $( "#select-operator option:selected" ).val();
-
-        var templatePhone = "<?= $templatePhone; ?>";
-        templatePhone = templatePhone.replaceAll( ":phone", phone );
-        templatePhone = templatePhone.replaceAll( ":operator", operator );
-        console.log(templatePhone);
-        $( '#tb-phones tbody' ).append( templatePhone );
-
-        $( ".hide-field" ).show();
-        $( "#inputPhone" ).val("");
-        $( "#select-operator" ).val("");
-    });
-
-    $( "#tb-phones" ).on( 'click', '.delete-phone', function() {
-        
-        $( this ).closest( 'tr' ).remove();
-
-        if( $.trim( $( "#tb-phones tbody" ).html() ) == "" ) {
-            $( ".hide-field" ).hide();
-        }
-    });
-
-});
-
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.split(search).join(replacement);
-};
+    // Store template phones.
+    var templatePhone = "<?= $templatePhone; ?>";
 </script>
 
 </body>

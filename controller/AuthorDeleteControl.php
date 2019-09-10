@@ -13,7 +13,7 @@ class AuthorDeleteControl {
 			$objAuthor = new AuthorsControl();
 			$objAuthor->setId( $request['id'] );
 			$objAuthor->delete( $debug );
-			header("Location: AuthorListControl.php");
+			header("Location: AuthorListControl.php"); // Redirect User to Main
 			die();
 		}
 		catch(Exception $e) {

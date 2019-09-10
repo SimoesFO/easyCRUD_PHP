@@ -2,41 +2,47 @@
 
 class Help {
 
-
+     /************************************************************************
+    * Description: User can choose whether to clear or format phone number.
+    ************************************************************************/
     public static function preparePhone($phone, $clear = false, $ddi = false) {
         
         if(!$clear) {
-            return Help::formatPhone($phone, $ddi);
+            return self::formatPhone($phone, $ddi);
         }
 
-        return Help::clearPhone($phone, $ddi);
+        return self::clearPhone($phone, $ddi);
     }
 
 	/************************************************************************
-    * Descrição: Remove todos os caracteres especiais e deixa apenas números.
-    * Remove o DDI caso desejar e Remove o ZERO do DD (043)
-    * Parâmetros:
-    *      $phone: Telefone que deseja limpar.
+    * Description: Remove all special characters and leave only numbers.
+    * Remove DDI if desired and remove ZERO from DD (044) if any.
+    * Params:
+    *      $phone: Phone you want clear.
     *          Ex.: 55 (43) 99780-4323 | (043)997804323 | 33780-4323 | Etc.
-    *      $ddi: Se você deseja que o DDI seja adicionado ao número. true ou false.
+    *      $ddi: If you want the DDI to be added to the number. True or False.
     ************************************************************************/
     public static function clearPhone($phone, $ddi = false) {
 
+        // Removes all letters and special characters from 
+        // the value sent, allowing only numbers.
         $phone = preg_replace("/[^0-9]/", "", $phone);
 
-        // Remove o 55 do início do telefone.
+        // Removes the DDI (55) from the phone if any.
         $hasDDI = strpos ($phone, '55');
         if($hasDDI === 0) {
-            $phone = mb_substr($phone, 2 , $qtdDigitos);
+            $qtdDigits = strlen($phone);
+            $phone = mb_substr($phone, 2, $qtdDigits);
         }
 
-        // Remove o 0 do inídio do telefone. Ex.: 043
-        $hasDDI = strpos ($phone, '0');
-         if($hasDDI === 0) {
-            $phone = mb_substr($phone, 1 , $qtdDigitos);
+        // Remove ZERO from DD if any. Ex.: 045 => 45
+        $hasZeroDD = strpos ($phone, '0');
+         if($hasZeroDD === 0) {
+            $qtdDigits = strlen($phone);
+            $phone = mb_substr($phone, 1 , $qtdDigits);
         }
 
-        // ADICIONA O DDI DO BRASIL, CASO PRECISE.
+        // Add Brazil DDI (55), if needs.
         if($ddi) {
 
             $hasDDI = mb_substr($phone, 0 , 2);
@@ -49,61 +55,47 @@ class Help {
 
 
     /************************************************************************
-    * Descrição: Formata Telefone para que ele seja apresentado no Formato Padrão Brasileiro.
+    * Description: Formats the phone to display in the Brazilian standard.
     * Ex.: +55 (43) 99743-4323 | (43) 99743-432X | 99743-432X
-    * Parâmetros:
-    *      $phone: Telefone que deseja Formatar.
+    * Params:
+    *      $phone: Phone you want format.
     *          Ex.: 55 (43) 99780-4323 | (043)997804323 | 33780-4323 | Etc.
-    *      $ddi: Se você deseja que o DDI seja adicionado ao número. true ou false.
+    *      $ddi: If you want the DDI to be added to the number. True or False.
     ************************************************************************/
     public static function formatPhone($phone, $ddi = false) {
 
-        // Remove todos as caracteres especiais. Deixa apenas número.
-        $phone = preg_replace("/[^0-9]/", "", $phone);
-
-        // Quantidade de Digítos do Telefone
+        // Clear phone number.
+        $phone = self::clearPhone($phone);
+        
+        // Number of Digits.
         $qtdDigitos = strlen($phone);
 
-        // Remove o 55 do início do telefone.
-        $hasDDI = strpos ($phone, '55');
-        if($hasDDI === 0) {
-            $phone = mb_substr($phone, 2 , $qtdDigitos);
-        }
-
-        // Remove o 0 do inídio do telefone. Ex.: 043
-        $hasDDI = strpos ($phone, '0');
-         if($hasDDI === 0) {
-            $phone = mb_substr($phone, 1 , $qtdDigitos);
-        }
-
-        // Calcula novamente a qtd de digitos para saber se é celular ou fixo.
-        $qtdDigitos = strlen($phone);
         switch ($qtdDigitos) {
 
-            case 8: // Telefone FIXO SEM DD.
+            case 8: // Home Phone WITHOUT DD.
                 $phone = (mb_substr($phone, 0 , 4) ."-".mb_substr($phone, 4 , $qtdDigitos));
                 break;
-            case 9: // Telefone CELULAR SEM DD.
+            case 9: // Cell Phone WITHOUT DD.
                 $phone = (mb_substr($phone, 0 , 5) ."-".mb_substr($phone, 5 , $qtdDigitos));
                 break;
-            case 10: // Telefone FIXO COM DD.
+            case 10: // Home Phone WITH DD.
                 $dd = mb_substr($phone, 0 , 2);
                 $number = (mb_substr($phone, 2 , 4) ."-".mb_substr($phone, 6 , $qtdDigitos));
                 $phone = "($dd) $number";
                 break;
-            case 11: // Telefone CELULAR COM DD
+            case 11: // Cell Phone WITH DD
                 $dd = mb_substr($phone, 0 , 2);
                 $number = (mb_substr($phone, 2 , 5) ."-".mb_substr($phone, 7 , $qtdDigitos));
                 $phone = "($dd) $number";
                 break;  
-            default: // Telefone inválido. Não têm qtd de digitos certo.
+            default: // Invalid Phone. Do not have correct amount of digits.
                return false;
         }
 
-        // Verifica se é para adicionar o DDI (55).
+        // Add Brazil DDI (55), if needs.
         if($ddi) {
 
-            // Só add o 55 se o telefone tiver o DD (43).
+            // Only add the DDI (55) if the phone has the DD.
             if($qtdDigitos >= 10) {
 
                 $phone = '+55 '.$phone;
@@ -114,44 +106,67 @@ class Help {
     }
 
 
+    /************************************************************************
+    * Description: User can choose whether to clear or format CPF/CNPJ.
+    ************************************************************************/
     public static function prepareCpfCnpj($cpf_cnpj, $clear = false) {
 
         if(!$clear) {
-            return Help::formatCpfCnpj($cpf_cnpj);
+            return self::formatCpfCnpj($cpf_cnpj);
         }
 
-        return Help::clearCpfCnpj($cpf_cnpj);
+        return self::clearCpfCnpj($cpf_cnpj);
     }
 
 
+    /************************************************************************
+    * Description: Clear CPF or CNPJ.
+    ************************************************************************/
     public static function clearCpfCnpj($cpf_cnpj) {
 
+        // Removes all letters and special characters from 
+        // the value sent, allowing only numbers.
         $cpf_cnpj = preg_replace("/[^0-9]/", "", $cpf_cnpj);
 
-        if(strlen($cpf_cnpj) == 11 || strlen($cpf_cnpj) == 15) {
+        // Check if it's a CPF (11 digits) or CNPJ (15 digits)
+        if(strlen($cpf_cnpj) == 11 || strlen($cpf_cnpj) == 14) {
             return $cpf_cnpj;
         }
 
+        // If isn't a valid CPF or CNPJ, return false.
         return false;
     }
 
 
+    /************************************************************************
+    * Description: Convert to the default CPF or CNPJ display format.
+    ************************************************************************/
     public static function formatCpfCnpj($cpf_cnpj) {
         
         if (strlen($cpf_cnpj) == 11) {
+            // CPF
             return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $cpf_cnpj);
         } 
         else if (strlen($cpf_cnpj) == 14) {
+            // CNPJ
             return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cpf_cnpj);
         }
 
         return false;
     }
 
+
+    /************************************************************************
+    * Description: Converts any date type to another desired format.
+    * Ex.: 2019-02-22 => 22/02/2019 | 16/05/2019 => 2019-05-16
+    * Params:
+    *      $date: Date you want format.
+    *      $format: Desired format. Ex. Y-m-d | d-Y-m | d/m/Y
+    ************************************************************************/
     public static function formatDateTo($date, $format='d/m/Y') {
 
-        $date = str_replace('/', '-', $date);
-        $date = date($format, strtotime($date));
+        $date = str_replace('/', '-', $date); // If date contains '/' replace with '-'.
+        $date = date($format, strtotime($date)); // Convert the date to the format you want.
         return $date;
     }
 }

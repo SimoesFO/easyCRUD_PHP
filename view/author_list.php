@@ -117,7 +117,7 @@
 <script type="text/javascript" src="../resources/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/jQuery-Mask-Plugin/dist/jquery.mask.min.js"></script>
 <script type="text/javascript" src="../resources/plugins/DataTables/datatables.min.js"></script>
-<script type="text/javascript" src="../resources/js/newsWeek.js"></script>
+<script type="text/javascript" src="../resources/js/newsWeek-list.js"></script>
 
 </body>
 </html>
