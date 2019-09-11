@@ -16,29 +16,31 @@ class AuthorListControl {
 			$arrayAuthors = $objAuthor->selectAll( $debug );
 
 			$html = "";
-			foreach ( $arrayAuthors as $key => $author ) {
-				
-				// Loading all the phone number.
-				$htmlPhones = $this->loadPhonesAuthor( $author, $debug );
+			if( $arrayAuthors ) {
+				foreach ( $arrayAuthors as $key => $author ) {
+					
+					// Loading all the phone number.
+					$htmlPhones = $this->loadPhonesAuthor( $author, $debug );
 
-				// Link to update register.
-				$linkEdit = "AuthorAddControl.php?id=". $author->getId();
-				
-				// Store all rows with information from authors.
-				$html .= "
-					<tr>
-						<td>". $author->getId() ."</td>
-						<td>". $author->getName() ."</td>
-						<td>". Help::prepareCpfCnpj( $author->getCpf() ) ."</td>
-						<td>". Help::formatDateTo( $author->getBirthday() ) ."</td>
-						<td>". $htmlPhones ."</td>
-						<td class='td-center'>
-							<a href='$linkEdit' class='img-icons'><img src='../resources/img/icons/pencil.svg' /></a>
-							<a href='javascript:void(0)' class='img-icons delete-author' data-id='". $author->getId() ."'><img src='../resources/img/icons/trashcan.svg' /></a>
-						</td>
-					</tr>";
+					// Link to update register.
+					$linkEdit = "AuthorAddControl.php?id=". $author->getId();
+					
+					// Store all rows with information from authors.
+					$html .= "
+						<tr>
+							<td>". $author->getId() ."</td>
+							<td>". $author->getName() ."</td>
+							<td>". Help::prepareCpfCnpj( $author->getCpf() ) ."</td>
+							<td>". Help::formatDateTo( $author->getBirthday() ) ."</td>
+							<td>". $htmlPhones ."</td>
+							<td class='td-center'>
+								<a href='$linkEdit' class='img-icons'><img src='../resources/img/icons/pencil.svg' /></a>
+								<a href='javascript:void(0)' class='img-icons delete-author' data-id='". $author->getId() ."'><img src='../resources/img/icons/trashcan.svg' /></a>
+							</td>
+						</tr>";
+				}
 			}
-
+			
 			return $html;
 		}
 		catch(Exception $e) {
