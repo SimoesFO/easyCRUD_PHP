@@ -1,5 +1,4 @@
 # EasyCRUD-PHP
-## About this Project
 EasyCRUD-PHP is a small PHP Framework that allows dynamic creation of CRUDs as well as automatic loading of classes and pages. It is an Open Sorce project and aims to be a lightweight, fast and easy-to-use PHP framework for small and medium sized projects. This is a personal project designed to compose my portfolio, and also to assist other developers in building their personal projects.
 
 ## This project contains
@@ -17,9 +16,9 @@ EasyCRUD-PHP is a small PHP Framework that allows dynamic creation of CRUDs as w
 * Install the database contained in the folder 'resources/database/', exists in Dump(SQL) or Workbench format for those who prefer.
 
 ## Author
-Felipe Oliveira Simões
-Master in Computer Science from the State University of Londrina (UEL).
-Systems Analyst / Developer / Programmer
+Felipe Oliveira Simões <br>
+Master in Computer Science from the State University of Londrina (UEL).<br>
+Systems Analyst / Developer / Programmer<br>
 Linkedin: [https://br.linkedin.com/in/felipeoliveirasimoes](https://br.linkedin.com/in/felipeoliveirasimoes)
 
 ## Copyright
