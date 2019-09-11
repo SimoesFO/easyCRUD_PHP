@@ -46,15 +46,16 @@
     </nav>
 </section>
 
+<!-- CONTENT -->
 <section class='content'>
 
     <div class="container">
 
         <div class="row justify-content-md-center">
 
-            <div class="col-md-12" style="border: 1px solid #CCC">
+            <div class="col-md-12 div-content">
 
-                <div class="row">
+                <div class="row row-title">
                     <div class="col-12 text-center">
                         <h1>Register New Author</h1>
                     </div>
@@ -133,8 +134,8 @@
 
                             <div class="row">
                                 <div class="col-12 text-right">
-                                    <button type="reset" class="btn btn-secondary">Fechar</button>
-                                    <button type="submit" class="btn btn-primary" id="btn-salvar">Salvar</button>
+                                    <button type="reset" class="btn btn-secondary"  id='btn-clear'>Clear</button>
+                                    <button type="submit" class="btn btn-primary" id="btn-salvar">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -150,7 +151,7 @@
     
 </section>
 
-
+<!-- MODAL -->
 <div class="modal" tabindex="-1" role="dialog" id="modal-alert">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

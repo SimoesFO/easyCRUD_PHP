@@ -88,9 +88,7 @@ class Connection {
 					self::$con[$instanceName]->beginTransaction();
 				}
 			}
-
-
-
+			
 			return self::$con[$instanceName];
 		}
 		catch (Exception $e) {

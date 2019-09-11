@@ -24,6 +24,10 @@ $(function() {
         $( "#select-operator" ).val(""); // Clear operator field.
     });
 
+    $( '#btn-clear' ).on( 'click', function() {
+        clearForm();
+    });
+
 
     // Delete phone from table.
     $( "#tb-phones" ).on( 'click', '.delete-phone', function() {
@@ -36,6 +40,20 @@ $(function() {
     });
 
 });
+
+/************************************************************
+ * Clear all Fields the form to register new author.
+ ************************************************************/
+function clearForm() {
+
+    $( "#inputName" ).val(""); // Clear Name.
+    $( "#inputBirthday" ).val(""); // Clear Birthday.
+    $( "#inputCPF" ).val(""); // Clear CPF.
+    $( "#inputPhone" ).val(""); // Clear phone field.
+    $( "#select-operator" ).val(""); // Clear operator field.
+    $( "#tb-phones tbody" ).html(""); // Clear table phones.
+    $( ".hide-field" ).hide(); // Show div phones.
+}
 
 
 // Replace all.
